@@ -3,7 +3,7 @@ from rdflib.namespace import RDF, OWL, RDFS
 import sys
 
 # Nama file ontologi
-ONTOLOGY_FILE = "dota2_ontology.owl"
+ONTOLOGY_FILE = "../Ontologi/dota2_ontology.owl"
 
 # Nama file Prolog ABox yang akan dihasilkan
 OUTPUT_FILE = "abox_dota2.pl"
