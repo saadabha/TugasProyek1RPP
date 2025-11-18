@@ -37,6 +37,13 @@ is_initiator(Hero) :-
 is_pusher(Hero) :-
     has_role(Hero, pusher).
 
+% Hero by Attack Type
+is_melee_hero(Hero) :-
+    attack_type(Hero, melee).
+
+is_ranged_hero(Hero) :-
+    attack_type(Hero, ranged).
+
 % Aturan untuk memeriksa properti ability yang dimiliki hero.
 % Ini adalah building block untuk aturan KBS yang lebih kompleks.
 
@@ -62,3 +69,17 @@ has_pure_damage_ability(Hero) :-
 has_channeled_ability(Hero) :-
     has_ability(Hero, Ability),
     ability_type(Ability, channeled).
+
+is_good_farmer(Hero) :-
+    hero(Hero),
+    (has_role(Hero, carry) ; has_role(Hero, pusher)),
+    has_ability(Hero, Ability),
+    ability_type(Ability, aoe).
+
+% Hero has strong initiation
+is_strong_initiator(Hero) :-
+    hero(Hero),
+    has_role(Hero, initiator),
+    has_role(Hero, disabler),
+    has_ability(Hero, Ability),
+    ability_type(Ability, aoe).

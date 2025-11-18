@@ -98,3 +98,4 @@ is_split_pusher(Hero) :-
     hero(Hero),
     is_pusher(Hero),
     is_escape(Hero).
+
