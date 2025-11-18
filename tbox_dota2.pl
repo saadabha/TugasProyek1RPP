@@ -69,17 +69,3 @@ has_pure_damage_ability(Hero) :-
 has_channeled_ability(Hero) :-
     has_ability(Hero, Ability),
     ability_type(Ability, channeled).
-
-is_good_farmer(Hero) :-
-    hero(Hero),
-    (has_role(Hero, carry) ; has_role(Hero, pusher)),
-    has_ability(Hero, Ability),
-    ability_type(Ability, aoe).
-
-% Hero has strong initiation
-is_strong_initiator(Hero) :-
-    hero(Hero),
-    has_role(Hero, initiator),
-    has_role(Hero, disabler),
-    has_ability(Hero, Ability),
-    ability_type(Ability, aoe).

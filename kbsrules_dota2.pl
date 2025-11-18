@@ -99,3 +99,86 @@ is_split_pusher(Hero) :-
     is_pusher(Hero),
     is_escape(Hero).
 
+% Spell Caster: Intelligence hero with multiple active abilities
+is_spell_caster(Hero) :-
+    hero(Hero),
+    is_intelligence_hero(Hero),
+    findall(Ability, (
+        has_ability(Hero, Ability),
+        ability_type(Ability, Type),
+        Type \= passive
+    ), Abilities),
+    length(Abilities, Count),
+    Count >= 3.
+
+% Tanky DPS: Has both Carry and Durable roles
+is_tanky_dps(Hero) :-
+    hero(Hero),
+    is_carry(Hero),
+    is_durable(Hero).
+
+is_good_farmer(Hero) :-
+    hero(Hero),
+    (has_role(Hero, carry) ; has_role(Hero, pusher)),
+    has_ability(Hero, Ability),
+    ability_type(Ability, aoe).
+
+% Hero has strong initiation
+is_strong_initiator(Hero) :-
+    hero(Hero),
+    has_role(Hero, initiator),
+    has_role(Hero, disabler),
+    has_ability(Hero, Ability),
+    ability_type(Ability, aoe).
+
+
+
+% === Position Classifications (1-5) ===
+
+% Position 1 (Safe Lane Carry)
+is_position_1(Hero) :-
+    hero(Hero),
+    is_carry(Hero),
+    \+ is_support(Hero),
+    (is_agility_hero(Hero) ; is_strength_hero(Hero)).
+
+% Position 2 (Mid Lane)
+is_position_2(Hero) :-
+    hero(Hero),
+    (is_nuker(Hero) ; is_carry(Hero)),
+    (is_intelligence_hero(Hero) ; is_agility_hero(Hero)),
+    \+ is_support(Hero).
+
+% Position 3 (Offlane)
+is_position_3(Hero) :-
+    hero(Hero),
+    is_durable(Hero),
+    is_initiator(Hero),
+    (is_strength_hero(Hero) ; is_universal_hero(Hero)).
+
+% Position 4 (Roaming Support)
+is_position_4(Hero) :-
+    hero(Hero),
+    is_support(Hero),
+    is_initiator(Hero),
+    is_disabler(Hero).
+
+% Position 5 (Hard Support)
+is_position_5(Hero) :-
+    hero(Hero),
+    is_support(Hero),
+    \+ is_carry(Hero),
+    \+ is_initiator(Hero).
+
+% Strong Against Illusions: Has AoE damage
+counters_illusions(Hero) :-
+    hero(Hero),
+    findall(Ability, (
+        has_ability(Hero, Ability),
+        ability_type(Ability, aoe),
+        damage_type(Ability, DmgType),
+        (DmgType = physical ; DmgType = magical)
+    ), AoeAbilities),
+    length(AoeAbilities, Count),
+    Count >= 2.
+
